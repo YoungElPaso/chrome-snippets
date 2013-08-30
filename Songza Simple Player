@@ -1,0 +1,24 @@
+//Just turns out the lights on Songza basically.
+$('div').css({'visibility':'hidden', 'width': '100%'});
+var a;
+require(["songza/app", "songza/models"], function(App) {
+      App.postInit(function() {
+        a = App.getInstance();
+      });
+});
+//Has all of the methods to play, pause, set volume etc.
+console.log(a.player.manager);
+//For instance...
+a.player.manager.setVolume(90);
+var tmpl = $('<ul><li class="pause">pause</li><li class="play">play</li><li class="next">next</li>');
+$('body').append(tmpl).width('100%');
+tmpl.css('background' : '#fff');
+tmpl.find('.pause').click(function(){
+    a.player.manager.pause();
+})
+tmpl.find('.play').click(function(){
+    a.player.manager.play();
+})
+tmpl.find('.next').click(function(){
+    a.player.manager.next();
+})

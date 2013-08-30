@@ -1,0 +1,31 @@
+var clearCacheShortcut = function () {
+    //A variable to run the cache clear command (runCc) right away or not.
+    var cmdLine = true;
+    var cC = jQuery('.toolbar-shortcuts .menu a:contains("Cache")');
+    var runCc = function (e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var url = Drupal.settings.basePath + 'admin/config/development/performance';
+      var f = jQuery.ajax({
+        url: url,
+        success: function () {
+          f = jQuery(f.response).find('form');
+          var p = jQuery.post(url, jQuery(f).serialize(), function (data) {
+            console.log(jQuery(p.response).find('.status').text());
+          });
+        }
+      });
+    };
+    //Bind the runCc function to a button if we have one, and if cmdLine is false.
+    if (cC.length > 0 && cmdLine == false) {
+      cC.unbind('click');
+      cC.click(function (event) {
+        runCc(event);
+      });
+    } else {
+      runCc(null);
+    };
+};
+clearCacheShortcut();
